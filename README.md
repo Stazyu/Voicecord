@@ -45,13 +45,50 @@ You will need an user token inorder to use this code. You can obtain it by doing
 
 ## 🛠️ Installation
 
+### Option A — Local (Python)
+
 1. Install [Python](https://python.org/downloads) on your machine (Make sure you add it to [PATH](https://i.imgur.com/Ukl6HdQ.png))
 2. Download the repository and extract it
-3. Open the main.py file and add your User Token, Guild (Server) ID and Channel ID
-4. Modify the status mode or mute/deaf option (`True` or `False`), if you want to make any adjustments
-5. Save the file
-6. Open command prompt inside the folder and run `pip install -r requirements.txt`
-7. Once the packages are downloaded, either double-click the `main.py` file in order to run it or open command prompt and run `python main.py`
+3. Copy `.env.example` to `.env` and fill in `DISCORD_TOKEN`, `GUILD_ID`, and `CHANNEL_ID` (and optionally `STATUS`, `SELF_MUTE`, `SELF_DEAF`)
+4. Open a command prompt inside the folder and run `pip install -r requirements.txt`
+5. Start the bot with `python main.py`
+
+### Option B — Docker (recommended for 24/7 hosting)
+
+1. Install [Docker](https://www.docker.com/get-started/) on your host machine
+2. Copy `.env.example` to `.env` and fill in your token, guild ID, and channel ID
+3. Build the image:
+
+   ```bash
+   docker build -t voicecord .
+   ```
+
+4. Run the container (loads variables from `.env` automatically):
+
+   ```bash
+   docker run -d --name voicecord --restart unless-stopped --env-file .env voicecord
+   ```
+
+   Or pass variables inline:
+
+   ```bash
+   docker run -d --name voicecord --restart unless-stopped \
+     -e DISCORD_TOKEN=YOUR_TOKEN \
+     -e GUILD_ID=YOUR_GUILD_ID \
+     -e CHANNEL_ID=YOUR_CHANNEL_ID \
+     -e STATUS=online \
+     -e SELF_MUTE=true \
+     -e SELF_DEAF=false \
+     voicecord
+   ```
+
+5. Tail the logs to confirm it connected:
+
+   ```bash
+   docker logs -f voicecord
+   ```
+
+   To stop it: `docker stop voicecord`. To remove the container: `docker rm voicecord`.
 
 ---
 
