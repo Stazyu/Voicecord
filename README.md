@@ -92,28 +92,4 @@ You will need an user token inorder to use this code. You can obtain it by doing
 
 ---
 
-## 🩺 Healthcheck
-
-The container runs a tiny built-in HTTP endpoint that Docker uses to verify the bot is actually talking to Discord (not just that the process is alive).
-
-- **Endpoint:** `GET /health` on `http://0.0.0.0:8080` inside the container (port configurable via `HEALTH_PORT`)
-- **How it works:** every Discord gateway heartbeat updates a timestamp; the endpoint returns:
-  - `200 OK` + `{"status":"ok", ...}` if a heartbeat was seen within `HEALTH_STALE_AFTER` seconds (default 60s)
-  - `503 Service Unavailable` + `{"status":"stale", ...}` otherwise
-- **Docker probe:** the `HEALTHCHECK` in the `Dockerfile` curls `/health` every 30s. After 3 failures the container is restarted automatically by Docker (combined with `--restart unless-stopped` this gives you self-healing 24/7 hosting).
-
-Useful commands:
-
-```bash
-# Check container health
-docker inspect --format='{{.State.Health.Status}}' voicecord
-
-# Hit the health endpoint manually (from inside the container)
-docker exec voicecord curl -s http://127.0.0.1:8080/health
-```
-
-You can tune the probe in the `Dockerfile` (`HEALTHCHECK` line) or the staleness threshold via `HEALTH_STALE_AFTER` in your `.env`.
-
----
-
 <p align="center">Voicecord is licensed under <a href="https://github.com/SealedSaucer/Voicecord/blob/main/LICENSE">GNU General Public License</a> ❤️</p>
