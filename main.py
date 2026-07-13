@@ -59,9 +59,6 @@ if res.status_code != 200:
 user = res.json()
 print(f"Logged in as {user['username']} ({user['id']})!")
 
-# Start the HTTP health endpoint so Docker can probe liveness.
-_start_health_server()
-
 
 async def heartbeat(ws, interval):
     global _last_heartbeat_ts
@@ -99,6 +96,8 @@ def _start_health_server() -> None:
     thread.start()
     print(f"Health endpoint listening on http://{HEALTH_HOST}:{HEALTH_PORT}/health")
 
+# Start the HTTP health endpoint so Docker can probe liveness.
+_start_health_server()
 
 async def main():
     global _last_heartbeat_ts
