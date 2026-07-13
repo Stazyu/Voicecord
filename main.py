@@ -10,6 +10,8 @@ from dotenv import load_dotenv
 # Load environment variables from .env file (if present)
 load_dotenv()
 
+# Get the API URL from the environment variable
+
 TOKEN = os.getenv("DISCORD_TOKEN")
 GUILD_ID = os.getenv("GUILD_ID")
 CHANNEL_ID = os.getenv("CHANNEL_ID")
