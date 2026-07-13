@@ -31,7 +31,7 @@ EXPOSE 8080
 # Probe the in-process HTTP health server. The server returns 200 only if the
 # Discord gateway heartbeat is fresh, otherwise 503, which Docker treats as
 # unhealthy and triggers a restart of the container.
-HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-    CMD curl -fsS "http://127.0.0.1:${HEALTH_PORT:-8080}/health" >/dev/null || exit 1
+# HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+#     CMD curl -fsS "http://127.0.0.1:${HEALTH_PORT:-8080}/health" >/dev/null || exit 1
 
 CMD ["python", "-u", "main.py"]
