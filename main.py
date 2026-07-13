@@ -61,6 +61,8 @@ async def main():
 
         asyncio.create_task(heartbeat(ws, heartbeat_interval))
 
+        print("Sending ready event...")
+
         await ws.send(json.dumps({
             "op": 2,
             "d": {
