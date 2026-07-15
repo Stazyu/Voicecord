@@ -97,6 +97,16 @@ async def main():
         while True:
             try:
                 msg = await ws.recv()
+                event = json.loads(msg)
+                op = event.get("op")
+                event_type = event.get("t")
+                if event_type in ("VOICE_STATE_UPDATE", "VOICE_SERVER_UPDATE"):
+                    print(f"Received {event_type}")
+                elif event_type == "READY":
+                    print("Re-identified successfully")
+                elif op == 11:
+                    # Heartbeat ACK from gateway - nothing to do.
+                    pass
             except Exception:
                 print("Disconnected, reconnecting...")
                 break
